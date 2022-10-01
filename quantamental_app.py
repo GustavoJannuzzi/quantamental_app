@@ -44,9 +44,6 @@ for row in fundamentus.index:
     for metric in metrics.keys():
         fundamentus.loc[row, metrics[metric]] = stats.percentileofscore(fundamentus[metric], fundamentus.loc[row, metric])/100
 
-# Printa cada percentual para garantir que esta sendo calculado
-for metric in metrics.values():
-    print(fundamentus[metric])
 
 
 
