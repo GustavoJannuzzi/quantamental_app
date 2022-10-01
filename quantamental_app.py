@@ -18,7 +18,6 @@ resposta = requests.get(url, headers = agent)
 soup = BeautifulSoup(resposta.text, 'lxml')
 tabela = soup.find_all('table')[0]
 df = pd.read_html(str(tabela), decimal = ',', thousands='.', converters=convs)[0]
-
 fundamentus = df
 
 #Data cleaning
@@ -43,8 +42,6 @@ metrics = {
 for row in fundamentus.index:
     for metric in metrics.keys():
         fundamentus.loc[row, metrics[metric]] = stats.percentileofscore(fundamentus[metric], fundamentus.loc[row, metric])/100
-
-
 
 
 # STREAMLIT 
