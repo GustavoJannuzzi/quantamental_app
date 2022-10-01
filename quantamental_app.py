@@ -22,7 +22,7 @@ df = pd.read_html(str(tabela), decimal = ',', thousands='.', converters=convs)[0
 fundamentus = df
 
 #Data cleaning
-fundamentus[fundamentus.isnull().any(axis=1)]
+fundamentus = fundamentus[fundamentus.isnull().any(axis=1)]
 
 for column in ['P/L', 'P/VP','PSR',  'EV/EBITDA']:
     fundamentus[column].fillna(fundamentus[column].mean(), inplace = True)
