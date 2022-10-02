@@ -8,3 +8,4 @@ beautifulsoup4==4.10.0
 yfinance==0.1.67
 numpy==1.21.5
 scipy==1.9.1
+DateTime==4.3
