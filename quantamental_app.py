@@ -67,12 +67,22 @@ fundamentus.reset_index(drop = True, inplace = True)
 
 st.title("Estratégia Quantamental")
 
+st.markdown('Value invest é uma estratégia que consiste em comprar ações que estão abaixo do valor de mercado da empresa. A ideia resumidamente é comprar ações de companhias que estejam subvalorizadas no mercado')
+st.markdown('Para fazer isso foram selecionadas empresas com bons indicativos financeiros. Porém cada indicador financeiro tem algumas falhas')
+st.markdown('Por exemplo, a relação preço/lucro não funciona bem com ações com lucros negativos.')
+st.markdown('Da mesma forma, as ações que recompram suas próprias ações são difíceis de avaliar usando a relação price-to-book ratio (P/VBA ou P/B).')
+st.markdown('Os investidores normalmente usam uma cesta composta de métricas de avaliação para construir estratégias de valor quantitativas robustas. Nesta estratégia, foram filtradas as ações com os percentis mais baixos nas seguintes métricas:')
+st.markdown('     - P/L')
+st.markdown('     - P/VBA ou P/B')
+st.markdown('     - PSR')
+st.markdown('     - EV/EBITDA')
+st.markdown('Para montar uma carteira, selecione o valor de investimento que deseja para esta carteira e o modelo apresenta as ações a quantidade de ações de cada empresa que vc deve comprar para alocar seu capital igualmente em cada ativo.')
+
+
 #Numero de ações p/comrprar
 
 
 portfolio_size = st.number_input('Qual valor da sua carteira(R$)',min_value = 1000000)
-
-st.text(portfolio_size)
 
 position_size = float(portfolio_size) / len(fundamentus.index)
 try: 
@@ -84,38 +94,3 @@ except:pass
 nova_lista = fundamentus[['Papel','Cotação','P/L', 'P/VP','PSR', 'EV/EBITDA','Numero de ações p/ comprar' ]]
 st.dataframe(nova_lista)
 
-
-#Varifando informações obre ativos especificos da carteira
-st.text('Veja informações sobre um ativo específico desta carteira')
-ticker = fundamentus['Papel']+'.SA'
-ticker = ticker.tolist()
-ticker = st.selectbox('Escolha um ativo', ticker)
-
-### STOCK INFORMATIONN ####
-
-st.write('---')
-col1,col2 = st.columns(2)
-with col1:
-    # Sidebar
-    st.subheader('Query parameters')
-    start_date = st.date_input("Start date", datetime.date(2022, 1, 1))
-    end_date = st.date_input("End date", datetime.date(2022, 1, 31))
-
-with col2: 
-    # Retrieving tickers data
-   #tickerSymbol = st.selectbox('Stock ticker', top50_ibov) # Select ticker symbol
-    tickerData = yf.Ticker(ticker) # Get ticker data
-    tickerDf = tickerData.history(period='1d', start=start_date, end=end_date) #get the historical prices for this ticker
-    # Ticker data
-    st.header('**Ticker data**')
-    st.write(tickerDf)
-
-# Ticker information
-string_logo = '<img src=%s>' % tickerData.info['logo_url']
-st.markdown(string_logo, unsafe_allow_html=True)
-
-string_name = tickerData.info['longName']
-st.header('**%s**' % string_name)
-
-string_summary = tickerData.info['longBusinessSummary']
-st.info(string_summary)
